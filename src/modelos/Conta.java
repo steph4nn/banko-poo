@@ -8,6 +8,10 @@ public class Conta {
     double saldo;
     ArrayList<Correntista> correntistas;
 
+    public int getId() {
+        return id;
+    }
+
     public Conta(int id, String data, double saldo) {
         this.id = id;
         this.data = data;
