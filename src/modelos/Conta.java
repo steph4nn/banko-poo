@@ -12,6 +12,15 @@ public class Conta {
         return id;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+    
+
     public Conta(int id, String data, double saldo) {
         this.id = id;
         this.data = data;
