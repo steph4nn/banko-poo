@@ -23,6 +23,10 @@ public class Repositorio {
         contas.add(c);
     }
 
+    public void removerConta(Conta c){
+        contas.remove(c);
+    }
+
     public void addCorrentista(Correntista co){
         correntistas.add(co);
     }

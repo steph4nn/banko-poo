@@ -11,13 +11,11 @@ public class Fachada {
 
     public static
     ArrayList<Correntista> listarCorrentistas() {
-        //retorna ordenado pelo cpf
         ArrayList<Correntista> correntistas = new ArrayList<Correntista>();
         correntistas = repositorio.getCorrentistas();
         return correntistas;
         
     }
-
     
     public static ArrayList<Conta> listarContas() {
         ArrayList<Conta> contas = repositorio.getContas();
@@ -32,10 +30,11 @@ public class Fachada {
                     throw new Exception("Já existe um correntista com o cpf informado");
                 }
             }
-        Correntista co = new Correntista(cpf, nome, senha);
-        repositorio.addCorrentista(co);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex.getMessage());
+            Correntista co = new Correntista(cpf, nome, senha);
+            repositorio.addCorrentista(co);
+        } 
+        catch (Exception ex) {
+            throw new RuntimeException("Erro ao criar correntista: "+ex.getMessage());
         }
     }
 
@@ -55,8 +54,9 @@ public class Fachada {
             Conta c = new Conta(id);
             c.adicionarCorrentistaTitular(co);
             repositorio.addConta(c);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex.getMessage());
+        } 
+        catch (Exception ex) {
+            throw new RuntimeException("Erro ao criar uma conta: "+ex.getMessage());
         }
     }
 
@@ -72,12 +72,16 @@ public class Fachada {
                     throw new Exception("O correntista informado já é titular de uma conta");
                 }
             }
+            if (limite < 50){
+                throw new Exception("O limite minimo de uma conta especial é R$50");
+            }
             int id = contas.size()+1;
             Conta c = new ContaEspecial(id, limite);
             c.adicionarCorrentistaTitular(co);
             repositorio.addConta(c);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex.getMessage());
+        } 
+        catch (Exception ex) {
+            throw new RuntimeException("Erro ao criar conta especial: " + ex.getMessage());
         }
     }
 
@@ -98,8 +102,9 @@ public class Fachada {
                 throw new Exception("O cpf informado já é cotitular da conta");
             };
             c.adicionarCorrentista(co);
-        }catch (Exception ex) {
-            throw new RuntimeException(ex.getMessage());
+        }
+        catch (Exception ex) {
+            throw new RuntimeException("Erro ao inserir correntista: "+ex.getMessage());
         }
     }
 
@@ -119,22 +124,109 @@ public class Fachada {
             if(!c.verificarCotitular(cpf)){
                 throw new Exception("O correntista informado não é cotitular da conta");
             };
-            c.removerCorrentistaCotitular(co);
-        }catch (Exception ex) {
+            c.removerCorrentista(co);
+        }
+        catch (Exception ex) {
+            throw new RuntimeException("Erro ao remover correntista: "+ex.getMessage());
+        }
+    }
+
+    public static void apagarConta(int id) {
+        try {
+            Conta c = repositorio.getContaById(id);
+            if (c == null) {
+                throw new Exception("Conta não encontrada");
+            }
+            ArrayList<Correntista> correntistas = c.getCorrentistas();
+            for (Correntista co : correntistas) {
+                c.removerCorrentista(co);
+            }
+            repositorio.removerConta(c);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+    public static void creditarValor(int id, String cpf, String senha, double valor) {
+        Conta c = repositorio.getContaById(id);
+        Correntista co = repositorio.getCorrentistaByCpf(cpf);
+        try {
+            if (c == null) {
+                throw new Exception("Conta não encontrada");
+            }
+            if (co == null) {
+                throw new Exception("Correntista não encontrado");
+            }
+            if (!co.getSenha().equals(senha)) {
+                throw new Exception("Senha inválida");
+            }
+            if (!c.verificarTitular(co.getCpf())) {
+                throw new Exception("O correntista não é o titular da conta de origem");
+            }
+            c.creditar(valor);
+    
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro ao creditar valor: " + ex.getMessage());
+        }
+    }
+
+    public static void debitarValor(int id, String cpf, String senha, double valor) {
+        Conta c = repositorio.getContaById(id);
+        Correntista co = repositorio.getCorrentistaByCpf(cpf);
+        try {
+            if (c == null) {
+                throw new Exception("Conta não encontrada");
+            }
+            if (co == null) {
+                throw new Exception("Correntista não encontrado");
+            }
+            if (!co.getSenha().equals(senha)) {
+                throw new Exception("Senha inválida");
+            }
+            if (c.getSaldo() < valor) {
+                throw new Exception("Saldo insuficiente");
+            }
+            c.depositar(valor);
+        } 
+        catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
         }
     }
 
-    public static void apagarConta(int id){
-
+    public static void transferirValor(int id1, String cpf, String senha, int id2, double valor) {
+        Conta c1 = repositorio.getContaById(id1);
+        Conta c2 = repositorio.getContaById(id2);
+        Correntista co = repositorio.getCorrentistaByCpf(cpf);
+        try {
+            if (c1 == null) {
+                throw new Exception("Conta de origem não encontrada");
+            }
+            if (c2 == null) {
+                throw new Exception("Conta de destino não encontrada");
+            }
+            if (co == null) {
+                throw new Exception("Correntista não encontrado");
+            }
+            if (!co.getSenha().equals(senha)) {
+                throw new Exception("Senha inválida");
+            }
+            if (!c1.verificarTitular(co.getCpf())) {
+                throw new Exception("O correntista não é o titular da conta de origem");
+            }
+            if (c1 instanceof ContaEspecial) {
+                ContaEspecial contaEspecial = (ContaEspecial) c1;
+                if (c1.getSaldo() - valor < -contaEspecial.getLimite()) {
+                    throw new Exception("Saldo insuficiente, o limite da conta especial seria excedido");
+                }
+            } else {
+                if (c1.getSaldo() < valor) {
+                    throw new Exception("Saldo insuficiente para realizar a transferência");
+                }
+            }
+            c1.transferir(valor, c2);
+    
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro ao realizar transferência: " + ex.getMessage());
+        }
     }
-    public static void creditarValor(int id, String cpf, String senha, double valor){
-
-    }
-    public static void debitarValor(int id, String cpf, String senha, double valor){
-
-    }
-    public static void transferirValor(int id1, String cpf, String senha, int id2, double valor){
-
-    }
+    
 }

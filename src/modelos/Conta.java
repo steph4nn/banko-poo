@@ -10,6 +10,10 @@ public class Conta {
     double saldo;
     ArrayList<Correntista> correntistas;
 
+    public ArrayList<Correntista> getCorrentistas() {
+        return correntistas;
+    }
+
     public int getId() {
         return id;
     }
@@ -37,15 +41,15 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    void depositar(double valor) {
+    public void depositar(double valor) {
         saldo += valor;
     }
 
-    void creditar(double valor) {
+    public void creditar(double valor) {
         saldo -= valor;
     }
 
-    void transferir(double valor, Conta destino) {
+    public void transferir(double valor, Conta destino) {
         saldo -= valor;
         destino.depositar(valor);
     }
@@ -61,10 +65,8 @@ public class Conta {
         correntistas.add(co);
     }
 
-    public void removerCorrentistaCotitular(Correntista co){
-        if (!this.verificarTitular(co.getCpf())){
-            correntistas.remove(co);
-        }
+    public void removerCorrentista(Correntista co){
+        correntistas.remove(co);
     }
 
     public Boolean verificarTitular(String cpf){
