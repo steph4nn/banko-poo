@@ -15,26 +15,43 @@ public class Repositorio {
     private ArrayList<Conta> contas = new ArrayList<>();
     private ArrayList<Correntista> correntistas = new ArrayList<>();
 
-    // public void adicionarConta(Conta c)	{
-    //     contas.add(c);
-    // }
-    // public void adicionarCorrentista(Correntista c)	{
-    //     correntistas.add(c);
-    // }
-    // public void removerConta(Conta c)	{
-    //     contas.remove(c);
-    // }
-    // public void removerCorrentista(Correntista c)	{
-    //     correntistas.remove(c);
-    // }
+    public Repositorio() {
+		carregarObjetos();
+	}
 
-    // public ArrayList<Conta> getContas() {
-    //     return contas;
-    // }
+    public void addConta(Conta c){
+        contas.add(c);
+    }
 
-    // public ArrayList<Correntista> getCorrentistas() {
-    //     return correntistas;
-    // }
+    public void addCorrentista(Correntista co){
+        correntistas.add(co);
+    }
+
+    public ArrayList<Correntista> getCorrentistas() {
+        return correntistas;
+        }
+
+    public Correntista getCorrentistaByCpf(String cpf) {
+        for (Correntista co : correntistas) {
+            if (co.getCpf().equals(cpf)) {
+            return co;
+            }
+        }
+        return null;
+        }
+
+    public ArrayList<Conta> getContas() {
+        return contas;
+        }
+
+    public Conta getContaById(int id) {
+        for (Conta c : contas) {
+            if (c.getId() == id) {
+            return c;
+            }
+        }
+        return null;
+        }
 
     public void carregarObjetos(){
         try {
@@ -111,6 +128,7 @@ public class Repositorio {
 			throw new RuntimeException("leitura arquivo de correntistas:"+ex.getMessage());
 		}
     }
+
     public void	salvarObjetos()  {
 		//gravar nos arquivos csv os objetos que est�o no reposit�rio
 		try	{
@@ -135,7 +153,6 @@ public class Repositorio {
 			ArrayList<String> lista ;
 			String listaId;
 			for(Correntista co : correntistas) {
-				//montar uma lista com os id dos eventos do participante
 				lista = new ArrayList<>();
                 for(Conta c : co.getContas()) {
                     lista.add(c.getId()+"");
@@ -150,6 +167,7 @@ public class Repositorio {
 		catch (Exception e) {
 			throw new RuntimeException("problema na cria��o do arquivo  correntistas "+e.getMessage());
 		}
-
 	}
+
+
 }

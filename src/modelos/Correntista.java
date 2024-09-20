@@ -33,12 +33,9 @@ public class Correntista {
         this.nome = nome;
         this.senha = senha;
     }
-
+    
     double getSaldoTotal() {
         return 0;
     }
 
-    void validarSenha(String senha) {
-        
-    }
 }
