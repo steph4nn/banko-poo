@@ -5,10 +5,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Conta {
-    int id;
-    String data;
-    double saldo;
-    ArrayList<Correntista> correntistas;
+    protected int id;
+    protected String data;
+    protected double saldo;
+    private ArrayList<Correntista> correntistas;
 
     public ArrayList<Correntista> getCorrentistas() {
         return correntistas;
@@ -27,7 +27,8 @@ public class Conta {
     }
     
 
-    public Conta(int id) {
+    public Conta(int id, String data, double saldo) {
+    	super();
         this.id = id;
         this.saldo = 0;
         LocalDate dataAtual = LocalDate.now();
@@ -35,23 +36,24 @@ public class Conta {
         this.data = dataAtual.format(formatter);  
     }
 
-    public Conta(int id, String data, double saldo){
-        this.id = id;
-        this.data = data;
-        this.saldo = saldo;
+
+    public void debitar(double valor) throws Exception{
+    	if (saldo >= valor) {
+    		saldo -= valor;    		
+    	} else {
+    		throw new Exception("Não é possível debitar valor maior que o saldo.");
+    	}
     }
 
-    public void depositar(double valor) {
+    
+    public void creditar(double valor) {
         saldo += valor;
     }
 
-    public void creditar(double valor) {
-        saldo -= valor;
-    }
-
+    
     public void transferir(double valor, Conta destino) {
         saldo -= valor;
-        destino.depositar(valor);
+        destino.creditar(valor);
     }
 
     

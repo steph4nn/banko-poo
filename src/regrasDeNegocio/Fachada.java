@@ -30,6 +30,9 @@ public class Fachada {
                     throw new Exception("Já existe um correntista com o cpf informado");
                 }
             }
+            if ((senha.length() != 4) && (!senha.matches("[0-9]")) ) {
+            	throw new RuntimeException("Só é possível criar senhas com 4 dígitos.");
+            }
             Correntista co = new Correntista(cpf, nome, senha);
             repositorio.addCorrentista(co);
         } 
@@ -38,7 +41,7 @@ public class Fachada {
         }
     }
 
-    public static void criarConta(String cpf) {
+    public static void criarConta(String cpf, String data) {
         ArrayList<Conta> contas = repositorio.getContas();
         Correntista co = repositorio.getCorrentistaByCpf(cpf);
         try {
@@ -51,7 +54,7 @@ public class Fachada {
                 }
             }
             int id = contas.size()+1;
-            Conta c = new Conta(id);
+            Conta c = new Conta(id, data, 0);
             c.adicionarCorrentistaTitular(co);
             repositorio.addConta(c);
         } 
@@ -60,7 +63,7 @@ public class Fachada {
         }
     }
 
-    public static void criarContaEspecial(String cpf, double limite){
+    public static void criarContaEspecial(String cpf, String data, double saldo, double limite){
         ArrayList<Conta> contas = repositorio.getContas();
         Correntista co = repositorio.getCorrentistaByCpf(cpf);
         try {
@@ -76,7 +79,7 @@ public class Fachada {
                 throw new Exception("O limite minimo de uma conta especial é R$50");
             }
             int id = contas.size()+1;
-            Conta c = new ContaEspecial(id, limite);
+            Conta c = new ContaEspecial(id, data, 0, limite);
             c.adicionarCorrentistaTitular(co);
             repositorio.addConta(c);
         } 
@@ -102,6 +105,7 @@ public class Fachada {
                 throw new Exception("O cpf informado já é cotitular da conta");
             };
             c.adicionarCorrentista(co);
+            co.getContas().add(c);
         }
         catch (Exception ex) {
             throw new RuntimeException("Erro ao inserir correntista: "+ex.getMessage());
@@ -125,6 +129,7 @@ public class Fachada {
                 throw new Exception("O correntista informado não é cotitular da conta");
             };
             c.removerCorrentista(co);
+            co.getContas().remove(id);
         }
         catch (Exception ex) {
             throw new RuntimeException("Erro ao remover correntista: "+ex.getMessage());
@@ -185,7 +190,12 @@ public class Fachada {
             if (c.getSaldo() < valor) {
                 throw new Exception("Saldo insuficiente");
             }
-            c.depositar(valor);
+            if (c instanceof ContaEspecial ce) {
+            	ce.debitar(valor);
+            } else {
+            	c.debitar(valor);
+            	
+            }
         } 
         catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());

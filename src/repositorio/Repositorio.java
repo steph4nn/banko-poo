@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Repositorio {
@@ -29,6 +31,7 @@ public class Repositorio {
 
     public void addCorrentista(Correntista co){
         correntistas.add(co);
+        correntistas.sort(Comparator.comparing(Correntista::getCpf));
     }
 
     public ArrayList<Correntista> getCorrentistas() {

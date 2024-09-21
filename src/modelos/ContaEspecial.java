@@ -1,23 +1,30 @@
 package modelos;
 
 public class ContaEspecial extends Conta {
-    double limite;
-
-    public double getLimite() {
-        return limite;
-    }
-
-    public ContaEspecial(int id,double limite){
-        super(id);
-        this.limite = limite;
-    }
-
+    private double limite;
+    
     public ContaEspecial(int id, String data, double saldo, double limite) {
         super(id, data, saldo);
         this.limite = limite;
     }
     
-    void debitar(double valor) {
-        saldo -= valor;
+
+    public double getLimite() {
+        return limite;
+    }
+    
+    public void setLimite(double limite) {
+    	this.limite = limite;
+    }
+
+    
+    @Override
+    public void debitar(double valor) throws Exception {
+    	if (getSaldo() - valor >= limite) {
+    		saldo -= valor;
+    	} else {
+    		throw new Exception("Não é possível debitar valor que exceda o limite.");
+    	}
+    	
     }
 }

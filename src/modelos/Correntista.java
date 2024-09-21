@@ -7,6 +7,13 @@ public class Correntista {
     private String nome;
     private String senha;
     private ArrayList<Conta> contas;
+    
+    public Correntista(String cpf, String nome, String senha) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.senha = senha;
+    }
+    
 
     public String getCpf() {
         return cpf;
@@ -28,14 +35,12 @@ public class Correntista {
         this.contas = contas;
     }
 
-    public Correntista(String cpf, String nome, String senha) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.senha = senha;
-    }
-    
     double getSaldoTotal() {
-        return 0;
+        double saldoTotal = 0;
+        for (Conta c : contas) {
+        	saldoTotal += c.getSaldo();
+        }
+        return saldoTotal;
     }
 
 }
