@@ -20,7 +20,7 @@ public class ContaEspecial extends Conta {
     
     @Override
     public void debitar(double valor) throws Exception {
-    	if (getSaldo() - valor >= limite) {
+    	if (getSaldo() - valor >= -limite) {
     		saldo -= valor;
     	} else {
     		throw new Exception("Não é possível debitar valor que exceda o limite.");

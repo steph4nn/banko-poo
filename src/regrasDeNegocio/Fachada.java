@@ -9,23 +9,19 @@ import java.util.ArrayList;
 public class Fachada {
     private static Repositorio repositorio = new Repositorio();	
 
-    public static
-    ArrayList<Correntista> listarCorrentistas() {
-        ArrayList<Correntista> correntistas = new ArrayList<Correntista>();
-        correntistas = repositorio.getCorrentistas();
-        return correntistas;
+    public static ArrayList<Correntista> listarCorrentistas() {
+        return repositorio.getCorrentistas();
         
     }
     
     public static ArrayList<Conta> listarContas() {
-        ArrayList<Conta> contas = repositorio.getContas();
-        return contas;
+        return repositorio.getContas();
     }
 
     public static void criarCorrentista(String cpf, String nome, String senha) {
         try {
             ArrayList<Correntista> correntistas = repositorio.getCorrentistas();
-            for (Correntista c : correntistas) {
+            for (Correntista c : correntistas) { // localizar correntista
                 if (c.getCpf().equals(cpf)) {
                     throw new Exception("Já existe um correntista com o cpf informado");
                 }
@@ -35,13 +31,14 @@ public class Fachada {
             }
             Correntista co = new Correntista(cpf, nome, senha);
             repositorio.addCorrentista(co);
+            repositorio.salvarObjetos();
         } 
         catch (Exception ex) {
             throw new RuntimeException("Erro ao criar correntista: "+ex.getMessage());
         }
     }
 
-    public static void criarConta(String cpf, String data) {
+    public static void criarConta(String cpf) {
         ArrayList<Conta> contas = repositorio.getContas();
         Correntista co = repositorio.getCorrentistaByCpf(cpf);
         try {
@@ -54,16 +51,19 @@ public class Fachada {
                 }
             }
             int id = contas.size()+1;
-            Conta c = new Conta(id, data, 0);
+            String data = null;
+			Conta c = new Conta(id, data, 0);
             c.adicionarCorrentistaTitular(co);
+            co.adicionarConta(c);
             repositorio.addConta(c);
+            repositorio.salvarObjetos();
         } 
         catch (Exception ex) {
             throw new RuntimeException("Erro ao criar uma conta: "+ex.getMessage());
         }
     }
 
-    public static void criarContaEspecial(String cpf, String data, double saldo, double limite){
+    public static void criarContaEspecial(String cpf, double limite){
         ArrayList<Conta> contas = repositorio.getContas();
         Correntista co = repositorio.getCorrentistaByCpf(cpf);
         try {
@@ -79,16 +79,19 @@ public class Fachada {
                 throw new Exception("O limite minimo de uma conta especial é R$50");
             }
             int id = contas.size()+1;
-            Conta c = new ContaEspecial(id, data, 0, limite);
+            String data = null;
+			Conta c = new ContaEspecial(id, data, 0, limite);
             c.adicionarCorrentistaTitular(co);
+            co.adicionarConta(c);
             repositorio.addConta(c);
+            repositorio.salvarObjetos();
         } 
         catch (Exception ex) {
             throw new RuntimeException("Erro ao criar conta especial: " + ex.getMessage());
         }
     }
 
-    public static void inserirCorrentistaConta(int id,String cpf){
+    public static void inserirCorrentistaConta(int id,String cpf) throws Exception {
         Conta c = repositorio.getContaById(id);
         Correntista co = repositorio.getCorrentistaByCpf(cpf);
         try{
@@ -103,16 +106,18 @@ public class Fachada {
             }
             if(c.verificarCotitular(cpf)){
                 throw new Exception("O cpf informado já é cotitular da conta");
-            };
+            }
+            
             c.adicionarCorrentista(co);
-            co.getContas().add(c);
+            co.adicionarConta(c);
+            repositorio.salvarObjetos();
         }
         catch (Exception ex) {
             throw new RuntimeException("Erro ao inserir correntista: "+ex.getMessage());
         }
     }
 
-    public static void removerCorrentista(int id, String cpf){
+    public static void removerCorrentistaConta(int id, String cpf){
         Conta c = repositorio.getContaById(id);
         Correntista co = repositorio.getCorrentistaByCpf(cpf);
         try{
@@ -127,9 +132,10 @@ public class Fachada {
             }
             if(!c.verificarCotitular(cpf)){
                 throw new Exception("O correntista informado não é cotitular da conta");
-            };
+            }
             c.removerCorrentista(co);
-            co.getContas().remove(id);
+            co.removerConta(c);
+            repositorio.salvarObjetos();
         }
         catch (Exception ex) {
             throw new RuntimeException("Erro ao remover correntista: "+ex.getMessage());
@@ -142,14 +148,20 @@ public class Fachada {
             if (c == null) {
                 throw new Exception("Conta não encontrada");
             }
-            ArrayList<Correntista> correntistas = c.getCorrentistas();
-            for (Correntista co : correntistas) {
-                c.removerCorrentista(co);
+            if (c.getSaldo() != 0) {
+            	throw new Exception("O saldo da conta deve ser 0.");
+            } else {
+            	
+            	ArrayList<Correntista> correntistas = c.getCorrentistas();
+            	for (Correntista co : correntistas) {
+            		c.removerCorrentista(co);
+            	}
+            	repositorio.removerConta(c);
             }
-            repositorio.removerConta(c);
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
         }
+        repositorio.salvarObjetos();
     }
     public static void creditarValor(int id, String cpf, String senha, double valor) {
         Conta c = repositorio.getContaById(id);
@@ -168,6 +180,7 @@ public class Fachada {
                 throw new Exception("O correntista não é o titular da conta de origem");
             }
             c.creditar(valor);
+            repositorio.salvarObjetos();
     
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao creditar valor: " + ex.getMessage());
@@ -177,7 +190,9 @@ public class Fachada {
     public static void debitarValor(int id, String cpf, String senha, double valor) {
         Conta c = repositorio.getContaById(id);
         Correntista co = repositorio.getCorrentistaByCpf(cpf);
+       
         try {
+//        	repositorio.carregarObjetos();
             if (c == null) {
                 throw new Exception("Conta não encontrada");
             }
@@ -187,15 +202,18 @@ public class Fachada {
             if (!co.getSenha().equals(senha)) {
                 throw new Exception("Senha inválida");
             }
-            if (c.getSaldo() < valor) {
-                throw new Exception("Saldo insuficiente");
-            }
+//            if (c.getSaldo() < valor) {
+//                throw new Exception("Saldo insuficiente");
+//            }
+//            
+            
             if (c instanceof ContaEspecial ce) {
             	ce.debitar(valor);
             } else {
             	c.debitar(valor);
             	
             }
+            repositorio.salvarObjetos();
         } 
         catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());

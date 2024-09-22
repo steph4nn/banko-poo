@@ -6,7 +6,7 @@ public class Correntista {
     private String cpf;
     private String nome;
     private String senha;
-    private ArrayList<Conta> contas;
+    private ArrayList<Conta> contas = new ArrayList<>();
     
     public Correntista(String cpf, String nome, String senha) {
         this.cpf = cpf;
@@ -29,6 +29,13 @@ public class Correntista {
 
     public String getSenha(){
         return senha;
+    }
+    public void adicionarConta(Conta conta) {
+    	contas.add(conta);
+    }
+    
+    public void removerConta(Conta conta) {
+    	contas.remove(conta);
     }
 
     public void setContas(ArrayList<Conta> contas) {

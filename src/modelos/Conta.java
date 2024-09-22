@@ -8,7 +8,7 @@ public class Conta {
     protected int id;
     protected String data;
     protected double saldo;
-    private ArrayList<Correntista> correntistas;
+    private ArrayList<Correntista> correntistas = new ArrayList<>();
 
     public ArrayList<Correntista> getCorrentistas() {
         return correntistas;
