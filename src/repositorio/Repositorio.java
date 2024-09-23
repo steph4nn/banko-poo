@@ -133,7 +133,10 @@ public class Repositorio {
 					// relacionar correntista com suas contas
 					for (String idconta : ids.split(",")) { // converter string em array
 						conta = this.getContaById(Integer.parseInt(idconta));
-						conta.adicionarCorrentistaTitular(correntista);
+						if (conta.getCorrentistas().isEmpty()){
+							conta.adicionarCorrentistaTitular(correntista);
+						}else{
+						conta.adicionarCorrentista(correntista);}
 						correntista.adicionarConta(conta);
 					}
 				}

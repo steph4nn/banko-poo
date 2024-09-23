@@ -91,8 +91,8 @@ public class Conta {
 		String texto =  "Id=" + id + ", data=" + data  ;
 		
 		texto += ", correntistas:";
-		for(Correntista e : getCorrentistas())
-			texto += e.getNome() + ",";
+		for(Correntista co : correntistas)
+			texto += co.getCpf() + ",";
 		return texto;
 	}
 }
