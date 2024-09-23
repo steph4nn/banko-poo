@@ -32,7 +32,6 @@ public class Alterar2 {
 	}
 
 	public static void main(String[] args) {
-		
 		new Alterar2();
 	}
 }

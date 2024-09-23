@@ -49,5 +49,13 @@ public class Correntista {
         }
         return saldoTotal;
     }
-
+    @Override
+	public String toString() {
+		String texto =  "CPF=" + cpf + ", nome=" + nome  ;
+		
+		texto += ", contas:";
+		for(Conta e : getContas())
+			texto += e.getId() + ",";
+		return texto;
+	}
 }

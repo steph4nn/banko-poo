@@ -86,4 +86,13 @@ public class Conta {
         }
         return false;
     }
+    @Override
+	public String toString() {
+		String texto =  "Id=" + id + ", data=" + data  ;
+		
+		texto += ", correntistas:";
+		for(Correntista e : getCorrentistas())
+			texto += e.getNome() + ",";
+		return texto;
+	}
 }
