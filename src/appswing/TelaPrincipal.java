@@ -18,7 +18,6 @@ import javax.swing.border.EmptyBorder;
 public class TelaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private JFrame frame;
 	private JMenu mnCorrentista;
 	private JMenu mnConta;
@@ -56,9 +55,9 @@ public class TelaPrincipal extends JFrame {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setText("Inicializando...");
 		label.setBounds(0, 0, 450, 313);
-//			ImageIcon imagem = new ImageIcon(getClass().getResource("/arquivos/imagem.jpg"));
-//			imagem = new ImageIcon(imagem.getImage().getScaledInstance(label.getWidth(),label.getHeight(), Image.SCALE_DEFAULT));//		label.setIcon(fotos);
-//			label.setIcon(imagem);
+		ImageIcon imagem = new ImageIcon(getClass().getResource("/arquivos/imagem.jpg"));
+		imagem = new ImageIcon(imagem.getImage().getScaledInstance(label.getWidth(),label.getHeight(), Image.SCALE_DEFAULT));//		label.setIcon(fotos);
+		label.setIcon(imagem);
 		frame.getContentPane().add(label);
 		frame.setResizable(false);
 
@@ -89,7 +88,7 @@ public class TelaPrincipal extends JFrame {
 				TelaCaixa tela = new TelaCaixa();
 			}
 		});
-		menuBar.add(mnConta);
+		menuBar.add(mnCaixa);
 	}
 	public TelaPrincipal() {
 		initialize();

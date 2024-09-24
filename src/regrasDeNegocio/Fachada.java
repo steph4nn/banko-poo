@@ -26,8 +26,11 @@ public class Fachada {
                     throw new Exception("Já existe um correntista com o cpf informado");
                 }
             }
-            if ((senha.length() != 4) && (!senha.matches("[0-9]")) ) {
+            if (senha.length() != 4) {
             	throw new RuntimeException("Só é possível criar senhas com 4 dígitos.");
+            }
+            if (!senha.matches("\\d+")) {
+            	throw new Exception("Só é possível criar senhas com números.");
             }
             Correntista co = new Correntista(cpf, nome, senha);
             repositorio.addCorrentista(co);
