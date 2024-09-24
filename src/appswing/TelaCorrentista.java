@@ -34,7 +34,7 @@ public class TelaCorrentista {
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JButton button;
-	private JButton button_4;
+	private JButton button_listar;
 	private JTextField textField_cpf;
 	private JTextField textField_nome;
 	private JLabel label;
@@ -145,15 +145,17 @@ public class TelaCorrentista {
 		textField_nome.setBounds(78, 239, 140, 20);
 		frame.getContentPane().add(textField_nome);
 
-		button_4 = new JButton("Listar");
-		button_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_4.addActionListener(new ActionListener() {
+		button_listar = new JButton("Listar Contas");
+		button_listar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		button_listar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String cpf = textField_cpf.getText();
+			
 				listagem();
 			}
 		});
-		button_4.setBounds(410, 8, 95, 23);
-		frame.getContentPane().add(button_4);
+		button_listar.setBounds(492, 239, 114, 23);
+		frame.getContentPane().add(button_listar);
 		
 		label_senha = new JLabel("senha:");
 		label_senha.setHorizontalAlignment(SwingConstants.LEFT);
@@ -181,10 +183,19 @@ public class TelaCorrentista {
 			//colunas
 			model.addColumn("cpf");
 			model.addColumn("nome");
-			model.addColumn("numero de contas");
+			model.addColumn("contas");
+			
+			String contas = "";
 			//linhas
-			for(Correntista co : correntistas) {
-				model.addRow(new Object[]{co.getCpf()+"", co.getNome(), co.getContas().size()});
+			for(Correntista co: correntistas) {
+				if(co.getContas().isEmpty())
+					contas = "Nenhuma Conta Associada";
+				else
+					for(Conta c: co.getContas())
+						contas += c.getId() + " ";
+			
+				model.addRow(new Object[]{co.getCpf()+"", co.getNome(), contas});
+				contas = "";
 			}
 
 			table.setModel(model);
