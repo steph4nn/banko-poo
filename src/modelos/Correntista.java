@@ -8,7 +8,13 @@ public class Correntista {
     private String senha;
     private ArrayList<Conta> contas = new ArrayList<>();
     
-    public Correntista(String cpf, String nome, String senha) {
+    public Correntista(String cpf, String nome, String senha) throws Exception {
+        if (senha.length() != 4) {
+            throw new RuntimeException("Só é possível criar senhas com 4 dígitos.");
+        }
+        if (!senha.matches("\\d+")) {
+            throw new Exception("Só é possível criar senhas com números.");
+        }
         this.cpf = cpf;
         this.nome = nome;
         this.senha = senha;
@@ -40,6 +46,12 @@ public class Correntista {
 
     public void setContas(ArrayList<Conta> contas) {
         this.contas = contas;
+    }
+
+    public void verificarSenha(String senha) throws Exception {
+        if (!this.senha.equals(senha)) {
+            throw new Exception("Senha incorreta");
+        }
     }
 
     double getSaldoTotal() {

@@ -164,6 +164,11 @@ public class TelaCaixa {
                     label_msg.setText("Valor creditado com sucesso.");
                 } catch (Exception ex) {
                     label_msg.setText(ex.getMessage());
+                } finally {
+                    textField_id.setText("");
+                    textField.setText("");
+                    textField_senha.setText("");
+                    textField_valor.setText("");
                 }
             }
         });
@@ -172,132 +177,135 @@ public class TelaCaixa {
     }
 
     private JPanel createPanelDebitar() {
-    	JPanel panel_debitar = new JPanel();
+        JPanel panel_debitar = new JPanel();
         panel_debitar.setLayout(null);
-
+    
         JLabel label = new JLabel("Valor a ser debitado:");
         label.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label.setBounds(30, 121, 200, 20);
         panel_debitar.add(label);
-
+    
         JTextField textField_valor = new JTextField();
         textField_valor.setBounds(30, 152, 200, 25);
         panel_debitar.add(textField_valor);
-
+    
         JButton button_confirmar = new JButton("Confirmar");
         button_confirmar.setBounds(388, 157, 100, 30);
         panel_debitar.add(button_confirmar);
-        
+    
         label_id = new JLabel("Id da conta:");
         label_id.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_id.setBounds(30, 31, 84, 20);
         panel_debitar.add(label_id);
-        
+    
         textField_id = new JTextField();
         textField_id.setBounds(30, 62, 84, 25);
         panel_debitar.add(textField_id);
-        
+    
         label_cpf = new JLabel("Cpf correntista:");
         label_cpf.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_cpf.setBounds(146, 31, 108, 20);
         panel_debitar.add(label_cpf);
-        
+    
         textField = new JTextField();
         textField.setBounds(146, 62, 84, 25);
         panel_debitar.add(textField);
-        
+    
         label_senha = new JLabel("senha:");
         label_senha.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_senha.setBounds(264, 31, 84, 20);
         panel_debitar.add(label_senha);
-        
+    
         textField_senha = new JTextField();
         textField_senha.setBounds(264, 62, 84, 25);
         panel_debitar.add(textField_senha);
-        
+    
         JLabel label_msg = new JLabel();
         label_msg.setForeground(new Color(0, 128, 255));
-        label_msg.setBounds(30, 184, 46, 14);
+        label_msg.setBounds(30, 184, 348, 14);
         panel_debitar.add(label_msg);
-
+    
         button_confirmar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                	Integer id = Integer.parseInt(textField_id.getText());
+                    Integer id = Integer.parseInt(textField_id.getText());
                     String cpf = textField.getText();
                     String senha = textField_senha.getText();
                     double valor = Double.parseDouble(textField_valor.getText());
                     Fachada.debitarValor(id, cpf, senha, valor);
-                    
-					label_msg.setText("Valor transferido com sucecsso.");
+                    label_msg.setText("Valor debitado com sucesso.");
                 } catch (Exception ex) {
                     label_msg.setText(ex.getMessage());
+                } finally {
+                    textField_id.setText("");
+                    textField.setText("");
+                    textField_senha.setText("");
+                    textField_valor.setText("");
                 }
             }
         });
-
+    
         return panel_debitar;
     }
-    
 
     private JPanel createPanelTransferir() {
         JPanel panel_transferir = new JPanel();
         panel_transferir.setLayout(null);
-
+    
         JLabel label_valor = new JLabel("Valor a ser transferido:");
         label_valor.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_valor.setBounds(30, 140, 146, 20);
         panel_transferir.add(label_valor);
-
+    
         JTextField textField_valor = new JTextField();
         textField_valor.setBounds(30, 160, 146, 25);
         panel_transferir.add(textField_valor);
-
+    
         JLabel label_cpforigem = new JLabel("CPF do correntista:");
         label_cpforigem.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_cpforigem.setBounds(300, 30, 137, 20);
         panel_transferir.add(label_cpforigem);
-
+    
         JTextField textField_cpfOrigem = new JTextField();
         textField_cpfOrigem.setBounds(299, 61, 162, 25);
         panel_transferir.add(textField_cpfOrigem);
-
+    
         JButton button_confirmar = new JButton("Confirmar");
         button_confirmar.setBounds(388, 157, 100, 30);
         panel_transferir.add(button_confirmar);
         
-        label_origem = new JLabel("id da conta 1:");
+        JLabel label_origem = new JLabel("id da conta 1:");
         label_origem.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_origem.setBounds(30, 30, 91, 20);
         panel_transferir.add(label_origem);
         
-        textField_id_origem = new JTextField();
+        JTextField textField_id_origem = new JTextField();
         textField_id_origem.setBounds(30, 49, 91, 25);
         panel_transferir.add(textField_id_origem);
         
-        label_destino = new JLabel("id da conta 2:");
+        JLabel label_destino = new JLabel("id da conta 2:");
         label_destino.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_destino.setBounds(139, 30, 91, 20);
         panel_transferir.add(label_destino);
         
-        textField_id_destino = new JTextField();
+        JTextField textField_id_destino = new JTextField();
         textField_id_destino.setBounds(139, 49, 91, 25);
         panel_transferir.add(textField_id_destino);
         
-        label_senha_debitar = new JLabel("senha:");
+        JLabel label_senha_debitar = new JLabel("senha:");
         label_senha_debitar.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_senha_debitar.setBounds(30, 85, 91, 20);
         panel_transferir.add(label_senha_debitar);
         
-        textField_senha_debitar = new JTextField();
+        JTextField textField_senha_debitar = new JTextField();
         textField_senha_debitar.setBounds(30, 104, 91, 25);
         panel_transferir.add(textField_senha_debitar);
         
         JLabel label_msg = new JLabel();
         label_msg.setForeground(new Color(0, 128, 255));
-        label_msg.setBounds(30, 184, 46, 14);
+        label_msg.setBounds(30, 184, 300, 14); // Ajuste o tamanho para caber a mensagem
         panel_transferir.add(label_msg);
-
+    
         button_confirmar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -307,13 +315,19 @@ public class TelaCaixa {
                     Integer contaDestino = Integer.parseInt(textField_id_destino.getText());
                     String senha = textField_senha_debitar.getText();
                     Fachada.transferirValor(contaOrigem, cpfOrigem, senha, contaDestino, valor);
-					label_msg.setText("Valor transferido com sucecsso.");
+                    label_msg.setText("Valor transferido com sucesso.");
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    label_msg.setText(ex.getMessage());
+                } finally {
+                    textField_valor.setText("");
+                    textField_cpfOrigem.setText("");
+                    textField_id_origem.setText("");
+                    textField_id_destino.setText("");
+                    textField_senha_debitar.setText("");
                 }
             }
         });
-
+    
         return panel_transferir;
     }
 }

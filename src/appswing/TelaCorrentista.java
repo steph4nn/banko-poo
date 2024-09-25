@@ -94,7 +94,6 @@ public class TelaCorrentista {
 						label.setText("campo vazio");
 						return;
 					}
-
 					String senha = textField_senha.getText();
 					String cpf = textField_cpf.getText();
 					String nome = textField_nome.getText();

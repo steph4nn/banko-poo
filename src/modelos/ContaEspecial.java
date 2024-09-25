@@ -3,8 +3,11 @@ package modelos;
 public class ContaEspecial extends Conta {
     private double limite;
     
-    public ContaEspecial(int id, String data, double saldo, double limite) {
+    public ContaEspecial(int id, String data, double saldo, double limite) throws Exception {
         super(id, data, saldo);
+        if (limite < 50){
+            throw new Exception("O limite minimo de uma conta especial é R$50");
+        }
         this.limite = limite;
     }
     

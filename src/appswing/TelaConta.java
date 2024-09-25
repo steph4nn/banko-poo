@@ -171,8 +171,7 @@ public class TelaConta {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					if (table.getSelectedRow() >= 0){
-						Integer id = (Integer) table.getValueAt( table.getSelectedRow(), 0);
-						
+						Integer id = (Integer) table.getValueAt( table.getSelectedRow(), 0);						
 						Fachada.apagarConta(id);
 						label.setText("deletou conta "+id );
 						listagem();
