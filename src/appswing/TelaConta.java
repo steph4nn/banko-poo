@@ -44,35 +44,11 @@ public class TelaConta {
 	private JButton button_add_co;
 	private JButton button_rem_co;
 
-
-
-	/**
-	 * Launch the application.
-	 */
-	//	public static void main(String[] args) {
-	//		EventQueue.invokeLater(new Runnable() {
-	//			public void run() {
-	//				try {
-	//					TelaEventos window = new TelaEventos();
-	//					window.frame.setVisible(true);
-	//				} catch (Exception e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		});
-	//	}
-
-	/**
-	 * Create the application.
-	 */
 	public TelaConta() {
 		initialize();
 		frame.setVisible(true);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JDialog();
 		frame.setModal(true);
@@ -265,36 +241,6 @@ public class TelaConta {
 	public void listagem() {
 		try{
 			List<Conta> contas = Fachada.listarContas();
-
-			//			//***************************************************************
-			//			
-			//			//Alternativa de ordenacao 1 (por nome)
-			//			Collections.sort(lista);
-			//						
-			//			//Alternativa de ordenacao 2
-			//			Collections.sort(lista, new Comparator<Participante>() {
-			//				public int compare(Participante p1, Participante p2) {
-			//					int idade1 = p1.getIdade();
-			//					int idade2 = p2.getIdade();
-			//					return Integer.compare(idade1, idade2);
-			//				}
-			//			});
-
-			//			//Alternativa de ordenacao 3
-			//			Collections.sort(lista, new Comparator<Participante>() {
-			//				public int compare(Participante p1, Participante p2) {
-			//					String nome1 = p1.getNome();
-			//					String nome2 = p2.getNome();
-			//					return nome1.compareTo(nome2);
-			//				}
-			//			});
-			//
-			//			//Alternativa de ordenacao 4
-			//			Collections.sort(lista, (p1,p2) -> p1.getNome().compareTo(p2.getNome()));
-			//			
-			//			//***************************************************************
-
-			//model contem todas as linhas e colunas da tabela
 			DefaultTableModel model = new DefaultTableModel();
 
 			//colunas

@@ -25,9 +25,6 @@ public class TelaPrincipal extends JFrame {
 	private JLabel label;
 
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -41,9 +38,7 @@ public class TelaPrincipal extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */private void initialize() {
+	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Sistema Banko");
 		frame.setBounds(100, 100, 450, 363);

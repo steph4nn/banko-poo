@@ -105,7 +105,7 @@ public class Fachada {
             throw new Exception("Conta não encontrada");
         }
         if (c.verificarTitular(cpf)){
-            throw new Exception("O correntista informado é o titular da conta");
+            throw new Exception("Correntista titular não pode ser removido");
         }
         if(!c.verificarCotitular(cpf)){
             throw new Exception("O correntista informado não é cotitular da conta");

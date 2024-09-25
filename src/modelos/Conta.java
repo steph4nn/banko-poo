@@ -50,7 +50,6 @@ public class Conta {
         saldo += valor;
     }
 
-    
     public void transferir(double valor, Conta destino) {
         saldo -= valor;
         destino.creditar(valor);

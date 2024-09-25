@@ -303,7 +303,7 @@ public class TelaCaixa {
         
         JLabel label_msg = new JLabel();
         label_msg.setForeground(new Color(0, 128, 255));
-        label_msg.setBounds(30, 184, 300, 14); // Ajuste o tamanho para caber a mensagem
+        label_msg.setBounds(30, 184, 300, 14);
         panel_transferir.add(label_msg);
     
         button_confirmar.addActionListener(new ActionListener() {
