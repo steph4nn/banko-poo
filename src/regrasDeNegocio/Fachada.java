@@ -158,13 +158,14 @@ public class Fachada {
             	ArrayList<Correntista> correntistas = c.getCorrentistas();
             	for (Correntista co : correntistas) {
             		c.removerCorrentista(co);
+            		co.removerConta(c);
             	}
             	repositorio.removerConta(c);
+            	repositorio.salvarObjetos();
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
         }
-        repositorio.salvarObjetos();
     }
     public static void creditarValor(int id, String cpf, String senha, double valor) {
         Conta c = repositorio.getContaById(id);
@@ -254,6 +255,7 @@ public class Fachada {
                 }
             }
             c1.transferir(valor, c2);
+            repositorio.salvarObjetos();
     
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao realizar transferência: " + ex.getMessage());

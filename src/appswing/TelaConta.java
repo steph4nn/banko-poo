@@ -199,6 +199,7 @@ public class TelaConta {
 				try{
 					if (table.getSelectedRow() >= 0){
 						Integer id = (Integer) table.getValueAt( table.getSelectedRow(), 0);
+						
 						Fachada.apagarConta(id);
 						label.setText("deletou conta "+id );
 						listagem();
@@ -267,6 +268,7 @@ public class TelaConta {
 						if(escolha == 0) {
 							Fachada.removerCorrentistaConta(id, cpf);
 							listagem();
+							label.setText("removeu correntista" +id);
 						}
 						else
 							label.setText("nao removeu correntista " +id );
