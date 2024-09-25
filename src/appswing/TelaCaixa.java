@@ -67,10 +67,14 @@ public class TelaCaixa {
         cardLayout = new CardLayout();
         panelPrincipal.setLayout(cardLayout);
 
+        
+        JPanel panelDefault = createPanelDefault();
         JPanel panelCreditar = createPanelCreditar();
         JPanel panelDebitar = createPanelDebitar();
         JPanel panelTransferir = createPanelTransferir();
 
+        panelPrincipal.add(panelDefault, "Default");
+        cardLayout.show(panelPrincipal, "Default");
         panelPrincipal.add(panelCreditar, "Creditar");
         panelPrincipal.add(panelDebitar, "Debitar");
         panelPrincipal.add(panelTransferir, "Transferir");
@@ -95,60 +99,64 @@ public class TelaCaixa {
         });
     }
 
-    private JPanel createPanelCreditar() {
+    private JPanel createPanelDefault() {
+		JPanel panel_default = new JPanel();
+		return panel_default;
+	}
+
+	private JPanel createPanelCreditar() {
         JPanel panel_creditar = new JPanel();
         panel_creditar.setLayout(null);
-
+    
         JLabel label = new JLabel("Valor a ser creditado:");
         label.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label.setBounds(30, 121, 200, 20);
         panel_creditar.add(label);
-
+    
         JTextField textField_valor = new JTextField();
         textField_valor.setBounds(30, 152, 200, 25);
         panel_creditar.add(textField_valor);
-
+    
         JButton button_confirmar = new JButton("Confirmar");
         button_confirmar.setBounds(388, 157, 100, 30);
         panel_creditar.add(button_confirmar);
-        
-        label_id = new JLabel("Id da conta:");
+    
+        JLabel label_id = new JLabel("Id da conta:");
         label_id.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_id.setBounds(30, 31, 84, 20);
         panel_creditar.add(label_id);
-        
-        textField_id = new JTextField();
+    
+        JTextField textField_id = new JTextField();
         textField_id.setBounds(30, 62, 84, 25);
         panel_creditar.add(textField_id);
-        
-        label_cpf = new JLabel("Cpf correntista:");
+    
+        JLabel label_cpf = new JLabel("Cpf correntista:");
         label_cpf.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_cpf.setBounds(146, 31, 108, 20);
         panel_creditar.add(label_cpf);
-        
-        textField = new JTextField();
+    
+        JTextField textField = new JTextField();
         textField.setBounds(146, 62, 84, 25);
         panel_creditar.add(textField);
-        
-        label_senha = new JLabel("senha:");
+    
+        JLabel label_senha = new JLabel("senha:");
         label_senha.setFont(new Font("Tahoma", Font.PLAIN, 14));
         label_senha.setBounds(264, 31, 84, 20);
         panel_creditar.add(label_senha);
-        
-        textField_senha = new JTextField();
+    
+        JTextField textField_senha = new JTextField();
         textField_senha.setBounds(264, 62, 84, 25);
         panel_creditar.add(textField_senha);
-        
-        label_msg = new JLabel("");
+    
+        JLabel label_msg = new JLabel("");
         label_msg.setForeground(new Color(0, 128, 255));
-        label_msg.setBounds(30, 184, 46, 14);
+        label_msg.setBounds(30, 184, 348, 14); // Ajuste o tamanho para caber a mensagem
         panel_creditar.add(label_msg);
-
+    
         button_confirmar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	JLabel label_msg = new JLabel();
                 try {
-                	Integer id = Integer.parseInt(textField_id.getText());
+                    Integer id = Integer.parseInt(textField_id.getText());
                     String cpf = textField.getText();
                     String senha = textField_senha.getText();
                     double valor = Double.parseDouble(textField_valor.getText());
@@ -159,7 +167,7 @@ public class TelaCaixa {
                 }
             }
         });
-
+    
         return panel_creditar;
     }
 

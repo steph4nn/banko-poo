@@ -20,7 +20,8 @@ public class Cadastrar {
 
 			Fachada.criarConta("0001");					//gera id=1
 			Fachada.criarConta("0002");		 			//gera id=2
-			Fachada.criarContaEspecial("0003", 1000); 	//gera id=3
+			Fachada.criarContaEspecial("0003", 1000);
+			Fachada.criarConta("0004");//gera id=3
 			System.out.println("Cadastrou contas ");
 		} catch (Exception e) {
 			System.out.println("--->"+e.getMessage());

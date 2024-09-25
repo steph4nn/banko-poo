@@ -30,7 +30,7 @@ public class Conta {
     public Conta(int id, String data, double saldo) {
     	super();
         this.id = id;
-        this.saldo = 0;
+        this.saldo = saldo;
         LocalDate dataAtual = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.data = dataAtual.format(formatter);  
@@ -88,7 +88,7 @@ public class Conta {
     }
     @Override
 	public String toString() {
-		String texto =  "Id=" + id + ", data=" + data  ;
+		String texto =  "Id=" + id + ", saldo="+saldo+ ", data=" + data  ;
 		
 		texto += ", correntistas:";
 		for(Correntista co : correntistas)

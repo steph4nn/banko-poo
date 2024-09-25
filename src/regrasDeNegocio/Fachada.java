@@ -53,7 +53,12 @@ public class Fachada {
                     throw new Exception("O correntista informado já é titular de uma conta");
                 }
             }
-            int id = contas.size()+1;
+            int id;
+            if (contas.isEmpty()) {
+                id = 1;
+            } else {
+                id = contas.get(contas.size() - 1).getId() + 1; 
+            }
             String data = null;
 			Conta c = new Conta(id, data, 0);
             c.adicionarCorrentistaTitular(co);
@@ -81,7 +86,7 @@ public class Fachada {
             if (limite < 50){
                 throw new Exception("O limite minimo de uma conta especial é R$50");
             }
-            int id = contas.size()+1;
+            int id = contas.getLast().getId()+1;
             String data = null;
 			Conta c = new ContaEspecial(id, data, 0, limite);
             c.adicionarCorrentistaTitular(co);
@@ -155,18 +160,19 @@ public class Fachada {
             	throw new Exception("O saldo da conta deve ser 0.");
             } else {
             	
-            	ArrayList<Correntista> correntistas = c.getCorrentistas();
+            	ArrayList<Correntista> correntistas = new ArrayList<>(c.getCorrentistas());
             	for (Correntista co : correntistas) {
             		c.removerCorrentista(co);
             		co.removerConta(c);
             	}
             	repositorio.removerConta(c);
-            	repositorio.salvarObjetos();
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
         }
+        repositorio.salvarObjetos();
     }
+    
     public static void creditarValor(int id, String cpf, String senha, double valor) {
         Conta c = repositorio.getContaById(id);
         Correntista co = repositorio.getCorrentistaByCpf(cpf);
@@ -184,11 +190,10 @@ public class Fachada {
                 throw new Exception("O correntista não é o titular da conta de origem");
             }
             c.creditar(valor);
-            repositorio.salvarObjetos();
-    
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao creditar valor: " + ex.getMessage());
         }
+        repositorio.salvarObjetos();
     }
 
     public static void debitarValor(int id, String cpf, String senha, double valor) {
@@ -217,11 +222,12 @@ public class Fachada {
             	c.debitar(valor);
             	
             }
-            repositorio.salvarObjetos();
+            
         } 
         catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
         }
+        repositorio.salvarObjetos();
     }
 
     public static void transferirValor(int id1, String cpf, String senha, int id2, double valor) {
@@ -255,11 +261,12 @@ public class Fachada {
                 }
             }
             c1.transferir(valor, c2);
-            repositorio.salvarObjetos();
+            
     
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao realizar transferência: " + ex.getMessage());
         }
+        repositorio.salvarObjetos();
     }
     
 }

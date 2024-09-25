@@ -20,8 +20,8 @@ public class Alterar1 {
 			Fachada.inserirCorrentistaConta(2, "0003"); // cotitular
 			System.out.println("inseriu cotitulares nas contas");
 			
-			Fachada.removerCorrentistaConta(1, "0002"); // cotitular
-			Fachada.removerCorrentistaConta(3, "0002"); // cotitular
+			//Fachada.removerCorrentistaConta(1, "0002"); // cotitular
+			//Fachada.removerCorrentistaConta(3, "0002"); // cotitular
 			System.out.println("removeu cotitulares das contas");
 		} catch (Exception e) {
 			System.out.println("--->" + e.getMessage());

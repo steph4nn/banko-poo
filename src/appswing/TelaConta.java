@@ -35,18 +35,14 @@ public class TelaConta {
 	private JScrollPane scrollPane;
 	private JLabel label;
 	private JLabel label_6;
-	private JLabel label_1;
 	private JLabel label_cpf;
-	private JTextField textField;
 	private JTextField textField_cpf;
-	private JButton button;
 	private JButton button_1;
 	private JLabel label_limite;
 	private JTextField textField_limite;
 	private JButton button_apagar;
 	private JButton button_add_co;
 	private JButton button_rem_co;
-	private JButton button_5;
 
 
 
@@ -119,19 +115,6 @@ public class TelaConta {
 		label_6.setBounds(21, 190, 431, 14);
 		frame.getContentPane().add(label_6);
 
-		label_1 = new JLabel("Digite parte do nome");
-		label_1.setHorizontalAlignment(SwingConstants.LEFT);
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_1.setBounds(21, 14, 128, 14);
-		frame.getContentPane().add(label_1);
-
-		textField = new JTextField();
-		textField.setFont(new Font("Dialog", Font.PLAIN, 12));
-		textField.setColumns(10);
-		textField.setBackground(Color.WHITE);
-		textField.setBounds(159, 11, 137, 20);
-		frame.getContentPane().add(textField);
-
 		label_cpf = new JLabel("cpf:");
 		label_cpf.setHorizontalAlignment(SwingConstants.LEFT);
 		label_cpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -170,16 +153,6 @@ public class TelaConta {
 		button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_1.setBounds(535, 265, 86, 23);
 		frame.getContentPane().add(button_1);
-
-		button = new JButton("Listar");
-		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				listagem();
-			}
-		});
-		button.setBounds(306, 9, 89, 23);
-		frame.getContentPane().add(button);
 
 		label_limite = new JLabel("limite (especial):");
 		label_limite.setHorizontalAlignment(SwingConstants.LEFT);
@@ -234,7 +207,7 @@ public class TelaConta {
 							listagem();
 						}
 						else
-							label.setText("nao adicionou correntista" +id );
+							label.setText("Não adicionou correntista à conta: " +id );
 
 					}
 					else
@@ -268,7 +241,7 @@ public class TelaConta {
 						if(escolha == 0) {
 							Fachada.removerCorrentistaConta(id, cpf);
 							listagem();
-							label.setText("removeu correntista" +id);
+							label.setText("removeu correntista da conta:" +id);
 						}
 						else
 							label.setText("nao removeu correntista " +id );
@@ -288,20 +261,6 @@ public class TelaConta {
 		button_rem_co.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_rem_co.setBounds(535, 215, 160, 23);
 		frame.getContentPane().add(button_rem_co);
-
-		button_5 = new JButton("Limpar");
-		button_5.addActionListener(
-				new ActionListener() 
-				{
-					public void actionPerformed(ActionEvent e) {
-						textField.setText("");
-						textField.requestFocus();
-					}
-				}
-				);
-		button_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_5.setBounds(402, 10, 89, 23);
-		frame.getContentPane().add(button_5);
 	}
 
 	public void listagem() {

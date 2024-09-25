@@ -14,8 +14,8 @@ public class Alterar2 {
 	public Alterar2() {
 		try {
 			
-			Fachada.creditarValor(1, "0001", "1111", 1000.0);
-			Fachada.creditarValor(2, "0001", "1111", 1000.0);
+			Fachada.creditarValor(1, "0001", "1111", 3000.0);
+			Fachada.creditarValor(2, "0001", "1111", 5000.0);
 			System.out.println("creditou ");
 		} catch (Exception e) {
 			System.out.println("--->" + e.getMessage());
